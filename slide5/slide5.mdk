@@ -1,0 +1,47 @@
+[INCLUDE=presentation]
+Title         : Zero-Shot Learning Through Cross-Model Transfer
+Sub Title     : Report
+Author        : xxlucas
+Affiliation   : XJUMY
+Email         : dotaofll@163.com
+Reveal Theme  : sky
+Beamer Theme  : singapore
+
+[TITLE]
+
+# Definition
+* Zero-Shot可以解决$unseen$样本的分类问题，但在一个真实语料库中，既有$seen$也有$unseen$的样本。本文旨在采用一个通用的模型来对$seen$ or $unseen$统一处理
+
+
+# Motivation
+
+* 先前的机器学习算法训练的模型，不能正确分类训练集中没有label的样本。这正是Zero-Shot的意义。
+
+# Related Work
+
+* Palatucci et al, [27]. 图像识别采用SOC来应对Zero-Shot
+* Lampert et al, [21].  给图像视觉特性打上二元标签。
+* Perona L. Fei-Fei; Fergus. TPAMI, （2006） 采用少量样本来构建视觉目标检测。
+* Lampert, Nickisch, and Harmeling et al, (2009) 采用完备的视觉特征来识别$unseen$样本
+* Qi et al, (2011) 每一个类别向其他类别转换知识。
+
+
+
+# Challenge
+
+* 语义表示法在无监督学习下传递信息非常有优势。
+* 仅仅只区分$unseen$ 与 $seen$ 样本该模型具有非常高的精度。
+
+# Proposed method
+
+分为三个主要部分:
+  * 词与图像表示法:单词被表示成分布特征的向量，我们使用Huang[15]的无监督模型来得到50维度的预训练的词向量，作为初始化的word vectors。而图像采用Coates et al. (2011) 方法抽图像特征。
+  * 图片映射到语义空间：raw-input 大部分是$seen$的，只有一小部分是$unseen$，采用一个神经网络将其映射为50维的词向量空间。
+  * Zero-Shot Learning Model：$\mathrm{V} \in \mathrm{s}$为已知类的先验概率模型，$\mathrm{V} \in \mathrm{u}$为未知类的先验概率模型。如果是已知类，则分类器选用softmax回归。如果是未知类，则使用等距高斯分布进行分类。
+  注意公式里面出现的$theta*x$表示将测试样本映射到词向量的空间，然后可以得到判断为未知类和已知类的概率，哪个概率高则属于哪一类。如果属于未知类，则将未知类的向量空间与其临近的向量空间进行对比，得到属于cat还是truck。
+
+
+# Idea
+
+* 识别$unseen$样本是本文的核心所在，介绍了许多关于样本点距离的公式与概念，我没搞懂。
+
