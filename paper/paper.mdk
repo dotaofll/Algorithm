@@ -25,6 +25,7 @@ But sad or merry, I must leave it now. Farewell!
 \category{D.2.5}{Software Engineering}{Testing and Debugging}[symbolic execution]
 \terms{Algorithms, Experimentation}
 \keywords{Games for learning, white box testing}
+\cite{@johnson2017google}
 ~
 
 # Introduction     { #sec-intro }
@@ -35,6 +36,7 @@ Let's start with a sub section.
 
 
 * zero-shot learning.
+  
 * Transformer.
   A nested list:
   - white
@@ -60,7 +62,7 @@ Our contributions are:
 * A figure of a _butterfly_;
 * Some **mathematics**;
 * And some source code;
-* And references to Tex books [@Knuth:TeX;@Lamport:LaTeX;@Goo93;@Fberg04] and others [@Grandstrand]. 
+* And references to Tex books [@Knuth:TeX;@Lamport:LaTeX;@Goo93;@Fberg04] and others [@Grandstrand] [@johnson2017google]. 
 
 # Content
 
