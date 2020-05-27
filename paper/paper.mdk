@@ -35,14 +35,40 @@ Let's start with a sub section.
 # Related Work
 
 
-* zero-shot learning.
+## zero-shot learning.
+ * try to explain the NMT has attract more people attention.
+  The NMT system consists of an encoder and decoder, which jointly train the maximum likelihood probability in an end-to-end manner.
+  With the help of long-term and short-term memory neural networks, threshold loop units, attention mechanisms, etc., NMT has achieved good results in many translation tasks, especially the latter.
+  Among the different variants, two are the most concerned, one is recurrent NMT and the other is transformer NMT models.
   
-* Transformer.
-  A nested list:
-  - white
-  - whole grain
-* pivot-method NMT.
+ * google's team propose a multilingual method NMT that enable the ability of translation non-corpus language of the model.
+  Firat et al.2016b propose an approach which delivers the multi-way,multilingual NMT model proposed by Firat et al.2016a to zero-resource translation.
+  The authors' approach,however,also in this case the need of separate encoders and decoders for every language pair significantly increases the complexity of the model.
 
+  
+## Transformer.
+  * The transformer architecture (Vaswani et al. 2017) works by relying on a selfattention mechanism, removing all the recurrent operations that are found in the RNN
+case (Vaswani et al. 2017). In other words, the attention mechanism is re-purposed to
+also compute the latent space representation of both the encoder and the decoder. The
+right-hand side of Figure 3 depicts a simple one-layer encoder based on self-attention.
+Notice that, in absence of recurrence, a positional-encoding is added to the input and
+output embeddings. Similarly, as the time-step in RNN, the positional information
+provides the transformer network with the order of input and output sequences. In
+our work we use absolute positional encoding but, very recently, the use of relative
+positional information has been shown to improve the network performance (Shaw,
+Uszkoreit, and Vaswani 2018).
+Overall, the transformer is organized as a stack of encoder-decoder networks that
+works in an auto-regressive way, using the previously generated symbol as input for the
+next prediction. Both the decoder and encoder can be composed of uniform layers, each
+built of sub-layers, i.e., a multi-head self-attention sub-layer and a position-wise feedforward network sub-layer. Specifically for the decoder, an extra multi-head attentional
+layer is added to attend to the output states of the encoder. Multi-head attention layers
+enable the use of multiple attention functions with a computational cost similar to
+utilizing a single attention.
+
+## pivot-method NMT.
+  * Cheng et al.
+(2016a) propose a pivot-based method for zero resource NMT: it first translates the source language to a pivot language, which is then translated
+to the target language.But this method has two problems, the computational complexity and error propagation.
 
 ## A short overview
 
@@ -62,7 +88,7 @@ Our contributions are:
 * A figure of a _butterfly_;
 * Some **mathematics**;
 * And some source code;
-* And references to Tex books [@Knuth:TeX;@Lamport:LaTeX;@Goo93;@Fberg04] and others [@Grandstrand] [@johnson2017google]. 
+* And references to Tex books [@Knuth:TeX;@Lamport:LaTeX;@Fberg04] and others [@Grandstrand] @johnson2017google
 
 # Content
 
