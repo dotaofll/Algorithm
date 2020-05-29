@@ -1,0 +1,45 @@
+[INCLUDE=presentation]
+Title         : Zero-Shot Dual Machine Translation
+Sub Title     : Report
+Author        : xxlucas
+Affiliation   : XJUMY
+Email         : dotaofll@163.com
+Reveal Theme  : sky
+Beamer Theme  : singapore
+
+[TITLE]
+
+# Definition
+
+* 要翻译$X$->$Y$，采用Zero—Shot的思想，则需要$Z$->$X$,$Z$->$Y$。
+
+
+# Motivation
+
+* NMT系统依赖大规模的平行语料库，该文旨在采用Zero-Shot与dual learning的方法来处理资源不足的情况。
+
+# Related Work
+
+* Johnson et al, (2016) 扩展了传统NMT编码器解码器加注意力机制，可以无监督处理Zero-Shot问题。
+* He et al, (2011) 提出了一种新的对偶学习算法。
+* Xia et al. (2017) 采用上述对偶学习算法，提升了 WMT·14 English-to-French 2.07个BLEU。
+* Lample et al, (2018) 提出了将单语语料翻译的方法。
+* Artetxe et al, (2018) 与Lample相似的方法。该系统可以同时进行双向翻译工作。
+
+
+# Challenge
+
+* 模型的泛化能力有待提升。
+* 利用更明确的跨语言普遍化;例如，与未经监督的方法组合在一起进行优化，会有更好的结果。
+
+# Proposed method
+
+* 要翻译$X$->$Y$，采用Zero—Shot的思想，则需要$Z$->$X$,$Z$->$Y$。在Zero-shot的系统上，添加dual traning算法。
+  * Target $X-Y$ 给定一个中间语种$Z$，采用单个多语种NMT训练$Z->X$与$Z->Y$,并且认为，该系统不会训练任何 $X->Y$ 句子对儿。所以，让其来产生$unseen$ 句子对。
+  * 用多层LSTM用作语言模型来训练$X$与$Y$的单语，然后采用dual learning 去计算 reward $R$ 然后更新共享权重在一开始的单个NMT里。
+  * dual learning的部分不是很明白，不敢说。
+
+# Idea
+
+* Zero-Shot的关键所在不是真正意义的零样本，而是在Zero-Shot的基础上，采用高质量，少资源的平行语料库用来纠正，效果会非常好。
+* 在Google’s Multilingual Neural Machine Translation System: Enabling Zero-Shot Translation一文里提出了Zero-Shot的痛点，关于中间语言的选取，以及翻译模式的选择，都是可以提升质量的Trick。

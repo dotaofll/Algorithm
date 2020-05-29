@@ -1,0 +1,56 @@
+[INCLUDE=presentation]
+Title         : Adam: A Method For Stochastic Optimization
+Sub Title     : Report
+Author        : xxlucas
+Affiliation   : XJUMY
+Email         : dotaofll@163.com
+Reveal Theme  : sky
+Beamer Theme  : singapore
+
+[TITLE]
+
+# Definition
+
+
+* 一种优化算子，可以被用来在训练机器学习模型中，优化损失函数。该函数具有随机，非平稳，及强噪声或者梯度稀疏等情况。
+
+# Motivation
+
+* 在科学和工程领域中，随机基于梯度的优化方法是许多核心实践问题的解法。实际问题包含多元函数极值问题求其极值和某一范围的最值是困难的，理论解也是不容易获得的。因此，SGD是许多极值问题求其数值解的通用方法之一。
+
+# Related Work
+
+* Tieleman & Hinton, 2012; Graves, 2013 提出了RMSProp算法
+* Duchi et al., 2011 提出了AdaGrad算法
+* Schaaul et al., 2012 提出了vSGD算法
+* Zeiler, 2012 提出了AdaDelta算法
+* Roux & Fitzgibbon 2010 提出的自然牛顿法
+* Sohl-Dickstein et al., 2014 体会出了SFO算法，小批量准牛顿法
+* Pascanu & Bengion, 2013 对Adam算法提出了改进。
+
+# Challenge
+
+* 选择恰当的初始学习率很困难。
+
+* 学习率调整策略受限于预先指定的调整规则。
+
+* 相同的学习率被应用于各个参数。
+
+* 高度非凸的误差函数的优化过程，如何避免陷入大量的局部次优解或鞍点。
+
+# Proposed method
+
+* 与其他类似与RMSProp以及SGD主要区别在于步长的选取，而且本文提供的算法自适应梯度，它能够对每个不同的参数调整不同的学习率，对频繁变化的参数以更小的步长进行更新，而稀疏的参数以更大的步长进行更新
+* 公式为：
+  * $g_{t}=\nabla_{\theta} J\left(\theta_{t-1}\right)$
+  * $\theta_{t+1}=\theta_{t}-\alpha \cdot g_{t} / \sqrt{\sum_{i=1}^{t} g_{t}^{2}}$
+  * 与SGD的核心区别在于计算更新步长时，增加了分母：梯度平方累积和的平方根。此项能够累积各个参数gt,i的历史梯度平方，频繁更新的梯度，则累积的分母项逐渐偏大，那么更新的步长(stepsize)相对就会变小，而稀疏的梯度，则导致累积的分母项中对应值比较小，那么更新的步长则相对比较大。
+
+
+# Idea
+
+* 在数据分布稀疏的场景，能更好利用稀疏梯度的信息，比标准的SGD算法更有效地收敛。
+* 主要缺陷来自分母项的对梯度平方不断累积，随之时间步地增加，分母项越来越大，最终导致学习率收缩到太小无法进行有效更新。
+
+
+

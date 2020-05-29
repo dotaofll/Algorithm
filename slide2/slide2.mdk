@@ -1,0 +1,56 @@
+[INCLUDE=presentation]
+Title         : Neural Machine Translation BY Jointly Learning To Align and Translate
+Sub Title     : Report
+Author        : xxlucas
+Affiliation   : XJUMY
+Email         : dotaofll@163.com
+Reveal Theme  : sky
+Beamer Theme  : singapore
+
+[TITLE]
+
+# Definition
+
+
+* STS模型中由编码器生成的定长向量是基于编码器解码器架构的NMT的瓶颈。
+
+# Motivation
+
+* 编码器形成定长词向量的方法过于单一，对源句的长度有很大的限制。本文扩充了编码器与解码器机制，引入注意力机制，使得模型可以自动的隐式捕获源句与目标句之间的信息。
+
+# Related Work
+
+* Kalchbrenner and Blunsom 2013, Sutskever et al., 2014 and Cho et al. 2014b 提出了NMT是一种新型机器翻译方法。 
+* Sutskever et al., 2014; Cho et al., 2014a 所提出的NMT模型大都具有编码器和解码器。
+* Graves 2013 在手写合成背景下，提出了一种类似的将输入信号与输出信号对齐的方法。
+* Schwenk 2012 在SMT中，使用前向神经网络计算源句与目标句得分，并纳入新的特征。
+* Kalchbrenner and Blunsom 2013 and Devlin et al., 2014 成功的将神经网络作为现有翻译系统的组件。
+* Schwenk et al., 2006 神经网络被用来训练目标端语言模型并被用来重新对候选译文进行评分。
+* Graves, 2012; Boulanger-Lewandowski et al., 2013 波束搜索来找到一个近似最大化条件概率的翻译。
+
+# Challenge
+
+* 遇到OOV问题束手无策。
+* 如何提升模型的泛化能力。
+
+# Proposed method
+
+* 主要集中在编码器和解码器部分
+  * Encoder
+    * 双向RNN
+    * 注解引入， $h_{j}=\left[\vec{h}_{j}^{\top} ; \overline{h}_{j}^{\top}\right]^{\top}$ 注解$h_{j}$包含了前部分词语和相邻接下来的词语的信息。
+  * Decoder
+    * 最后生成译文的条件概率除了跟前一个词而且还与隐状态与上下文词向量有关，即$p\left(y_{i} \cdot\left\{y_{1}, \ldots, y_{i-1}\right\}, \mathbf{x}\right)=g\left(y_{i-1}, s_{i}, c_{i}\right)$
+    * 每个词都有其对应的词向量，$c_{i}=\sum_{j=1}^{T_{x}} \alpha_{i j} h_{j}$
+    * 还包含了一个隐对齐模型$e_{i j}=a\left(s_{i-1}, h_{j}\right)$ 所谓的软对齐。
+    
+
+# Idea
+
+* 编码器的工作除了将seq变成定长向量外，还捕获了词语间的信息。
+* 传统STS模型，一个句子中的词语共有一个定长词向量，本文是每个词语都有一个定长词向量。
+* 依旧是在编码器解码器架构上打补丁。
+* 双向RNN可以捕获更多的局部信息，对长句的翻译效果提升显著。
+
+
+

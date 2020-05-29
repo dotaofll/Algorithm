@@ -1,0 +1,43 @@
+Title         : Date Preprocess Module
+Author        : xxlucas
+Logo          : True
+
+[TITLE]
+
+
+# Report
+
+## Data Preprocessing
+
+* Remove the illegal.
+* Unique.
+* Lowercase.
+* Remove stopwords
+* Segment.
+* Tokenization.
+
+
+|--------------|--------------|--------------|
+| en2tr Bilingual    | Repeat word   | Singal word    |
++--------------|:------------:+--------------+
+| Processing       | 5886262       | 5019977       |
+| Unprocessing       | 8700538       | 7423216       |
+|--------------|--------------|--------------|
+
+
+
+
+|--------------|--------------|--------------|
+| ar2zh-cn Monolingual    | Repeat word   | Singal word    |
++--------------|:------------:+--------------+
+| Processing       | 1066535       | 9067195       |
+| Unprocessing       | 10662279       | 9351523       |
+|--------------|--------------|--------------|
+{  }
+
+
+_ar2en task invoke an error because running out of memery_
+_Our server of Speechlab is not online yet so i run my script on my own laptop_
+
+
+

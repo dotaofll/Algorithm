@@ -1,0 +1,48 @@
+[INCLUDE=presentation]
+Title         : Zero-Shot Learning Through Cross-Model
+Sub Title     : Report
+Author        : xxlucas
+Affiliation   : XJUMY
+Email         : dotaofll@163.com
+Reveal Theme  : sky
+Beamer Theme  : singapore
+
+[TITLE]
+
+# Definition
+
+* 所谓的Zero-Shot就是使模型能够正确预测或分类训练集中没有label的数据。
+* 语义输出码分类器(semantic output code classifier)，即SOC，它可以利用Y的语义来推断新的类。
+* 语义特征空间(Semantic Feature Space),一个P维的语义特征空间，每一维编码就是一个语义性质的值，本篇文章中，每一维都是[0,1]二维的。
+* 语义知识库(Semantic Knowledge Base)，一个包含$M$个例子的语义知识库$k$是一个集合$\{f, y\}_{1 : M}$，其中$f \in F^{p}$是P维语义空间$F^{p}$中的一个点，$y \in Y$是集合$Y$中的一个类标记。
+
+
+# Motivation
+
+* 先前的机器学习算法训练的模型，不能正确分类训练集中没有label的样本。这正是Zero-Shot的意义。
+
+# Related Work
+
+* Larochelle et al, (2008) 证实了Zero-Shot learning 有能力预测训练集中缺失的类别。
+* Lampert et al, (2009) 采用视觉特性去预测全新的类。
+* Farhadi et al, (2009) 同Lampert et al, (2009) 视觉特性来用于目标检测。
+* Mitchell (2008) 也采用了语义特性来区分英语中的未知词语。
+
+# Challenge
+
+* 本文旨在通过丰富的类标记的语义编码，分类器可以推断出新的类，仅对图像识别形成了丰富的语义空间。针对，特定的领域，比如，机器翻译方向，语义空间的生成比较困难。
+
+# Proposed method
+
+* 一个SOC $\mathcal{H} : X^{d} \rightarrow Y$ 将原始输入空间$X^{d}$中的点映射为集合$Y$中的标记。
+  * 其中，$\mathcal{H}$ 由 $\mathcal{S}$ 和 $\mathcal{L}$ 两个函数组成：
+    * $\mathcal{S} : X^{d} \rightarrow F^{p}$
+    * $\mathcal{L} : F^{p} \rightarrow Y$
+
+* 分类器通过输入空间相对较少的训练样本可能学习原始输入空间和语义特征空间单个维度间的关系。当一个新样本出现的时候分类器根据学到的映射 $\mathcal{S}$ 来预测其语义编码，如果预测和真正的类编码相近，那么映射$\mathcal{L}$ 会恢复其正确的标记。举一个具体的例子，如果模型预测的物体有皮毛和尾巴，那么就有可能给出类标记狗，即使在训练过程中模型没有遇到过狗的图片。 
+
+# Idea
+
+* 已经encoding的样本，但是训练集中没有出现此类别，如何判别，作者给出了新的思路，采取将raw-input映射到语义空间的做法非常新颖。
+* 如何使语义空间丰富是一个问题，在此文中，是人为设计的语义表示。
+

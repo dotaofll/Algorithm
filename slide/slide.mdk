@@ -1,0 +1,49 @@
+[INCLUDE=presentation]
+Title         : Neural Machine Translation of Rare Words with Subword Units
+Sub Title     : Report
+Author        : xxlucas
+Affiliation   : XJUMY
+Email         : dotaofll@163.com
+Reveal Theme  : sky
+Beamer Theme  : singapore
+
+[TITLE]
+
+# Definition
+
+
+* 处理OOV问题,采用变种BPE进行分词，粒度在word与charactor之间。
+
+# Motivation
+
+* OOV问题是个开放问题。先前的工作是将OOV的词放回到字典里去，这会产生一个问题，此项技术在实践中应用结果不怎么好。因为，对多形态句子在不同语种源句与目标没有严格的一一对应关系。同时，词模型没有办法翻译和生成看不见的词语。将源句直接抄不失为一种方法，但对多形态无能为力，尤其是两语言字母不同的情况下。
+
+# Related Work
+
+* Durrani et al.,2014 解决了很大部分生词是人名的情况，如果字母不同，则音译。
+* Vilar et al., 2007; Tiedemann,2009; Neubig et al.,2012 基于短语的模型和基于字符的模型，在语言密切相关的情况下很成功。
+* Nibben and Ney,2000; Koehn and Knight, 2003; Virpioja et al.,2007; Stallard et al., 2012 在SMT许多算法用来处理形态复杂的词语。
+* Bazzi and Glass, 2000 在说话人识别中应用subword units。
+* Snyder and Barzilay, 2008 研究了多语言分割任务并提出了多语言分割算法。
+* Luong et al., 2013; Botha and Blunsom, 2014; Ling et al., 2015a; Kim et al., 2015 提出了多种基于字符及多形态词语的连续定长的连续词向量生成方法。
+* Ling et al., 2015b 与此篇文章类似，但并没有显著进展。
+
+# Challenge
+
+* 为翻译任务学习最佳词汇表size的问题
+* 在subword层面中，创造更好的对齐单元
+
+# Proposed method
+
+* 采用变种BPE来实现subword层次的分割，从而尽可能的覆盖各种各样的OOV，其中包括Instance names, compounds, cognates, and loanwords。得到一个良好压缩率的词汇表从而提高STS的效率。
+  * `separate BPE` 对源语言和目标语言分开学习。这样做的好处是，词典大小和总token数量更加紧凑(compact)(小一些)，并且能够保证每个subword unit都在训练样本中出现过。
+  * `jointly BPE` 提高了源和目标之间的一致性。
+  
+
+# Idea
+
+* 由于一个句子中罕见的单词往往带有中心信息，但是，罕见的词汇往往使用在特殊场景，是否应该提出一个针对罕见和未知词汇的评价指标。
+* 传统的NMT attention机制都是word-level，而在subword-level unit应用此机制是否会带来不错的结果。
+* 以前的SMT研究中已经证明几种有效的词分割技术，它们都减少了词汇量，但都没有解决未知词汇的问题，是否有新的词分割算法能同时兼顾两个问题。
+
+
