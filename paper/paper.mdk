@@ -101,7 +101,7 @@ to the target language.But this method has two problems, the computational compl
 The strength of NMT lies in its ability to learn directly,in a end to end fashion,the mapping from input text to associated output text(@sutskever2014sequence).
 Lex $ \mathbf{x} $ be a source language sentence and $ \mathbf{y} $ be a target-language sentence.NMT directly estimates the conditional probability of the target variable $\mathbf{y}$
 $ P\left(\mathbf{y} | \mathbf{x} ; {\boldsymbol{\theta}}_{x \rightarrow y}\right)\label{x1}, $
-where $\boldsymbol{\theta}_{x \rightarrow y}$ is a set of model parameters.Given a source-target parallel corpus $D_{x, y}$ the model parameters can be obtained by maximum likelihood estimation(MLE) of $\eqref{x1}$.
+where $\boldsymbol{\theta}_{x \rightarrow y}$ is a set of model parameters.Given a source-target parallel corpus $D_{x, y}$ the model parameters can be obtained by maximum likelihood estimation(MLE) of $\eqref{#eq-x2}$.
 
 ~ Equation { #eq-x2 }
 \hat{\boldsymbol{\theta}}_{x \rightarrow y}=\underset{\boldsymbol{\theta}_{x \rightarrow y}}{\operatorname{argmin}}\left\{- \sum_{(\mathbf{x}, \mathbf{y}) \in D_{x, y}} \log P\left(\mathbf{y} | \mathbf{x} ; \boldsymbol{\theta}_{x \rightarrow y}\right)\right\}.
