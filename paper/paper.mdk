@@ -30,10 +30,36 @@ But sad or merry, I must leave it now. Farewell!
 
 # Introduction     { #sec-intro }
 
-Let's start with a sub section.
+&nbsp;&nbsp;In the past four years, neural machine translation has demonstrated excellent performance in many fields.
+Moreover, the best results were obtained in the IWSLT(@cettolo2016iwslt) and WMT(@bojar2016findings) evaluation competition.
+Neural machine translation is an end-to-end fashion to model the mapping of source language to target language through posterior probability.
+The NMT system consists of an encoder and decoder, which jointly train the maximum likelihood probability in an end-to-end manner.
+With the help of long-term and short-term memory neural networks, threshold loop units, attention mechanisms, etc., NMT has achieved good results in many translation tasks, especially the latter.
+Among the different variants, two are the most concerned, one is recurrent NMT and the other is transformer NMT models(@sutskever2014sequence,@bahdanau2014neural,@vaswani2017attention).
+Although, NMT has achieved state-of-the-art performance on many translation tasks.However, NMT is also plagued by data sparseness.
+@zoph2016transfer indicate that NMT obtains much worse translation quality than a statistical machine translation system.
+In response to this problem, it is necessary to construct an effective NMT to cope with the situation of low resource languages.
 
-# Related Work
 
+&nbsp;&nbsp;As a result,Many scholars are working hard to explore new methods of translating languages, when faced with insufficient or no parallel corpus.
+@firat2016multi present a multi-way,multilingual model with shared attention to achieve zero-resource language pair.Another direction is to develop an universal encoder-decoder architecture.
+The simplest and most efficient implementation method is to use target-forcing technique,which is to perpend to the source sentence a tag specifying the target language,both training and testing time(@johnson2017google,@ha2016toward).
+Since the transformer model was proposed, many translation tasks have replaced rnn-based NMT with transformer NMT.
+
+
+&nbsp;&nbsp;Another direction is to achieve an source-to-target NMT without parallel corpus via a pivot.@cheng2016neural proposed a method for zero-resource NMT.
+Although these approaches prove to be effective,but pivot-based approaches usually need to divide the decoding process into two steps,which is not only more computationally expensive, but also potentially suffers from the error propagation problem(@zhu2013improving).
+@chen2017teacher proposed an NMT based on knowledge distillation and pre-training.They called source-to-pivot NMT "student" and pivot-to-target NMT "teacher" and they pre-train the "teacher" model and use "teacher" model to guide the learning process of the student model on a source-pivot parallel corpus.
+Compared with pivot-based approaches(@cheng2016neural),their method directly estimates the posterior probability of the source language to the target language.Therefore this strategy not only improves efficiency but also avoids error propagation in decoding.
+
+&nbsp;&nbsp;In this work,we approach low-resource machine translation with so-called pivot-based NMT(@cheng2016neural,@chen2017teacher).The Transformer approach delivers the best performing multilingual models,with a larger gain over
+corresponding bilingual models than observed with RNNs and it delivers the best quality in all considered zero-shot condition and translation directions(@lakew2018comparison).
+Our motivation is based on the above two points and the method of @chen2017teacher .So our approach is a pivot-based transformer NMT.Not only reduces the calculation cost, but also avoids the second propagation of error. More importantly, the transformer NMT has been proven to perform better than rnn-based NMT.
+Therefore our approach should ideally help in the case of similar languages and sparse training data.Experiments on the Europarl and WMT datasets show
+that our approach achieves significant improvements in terms of both translation quality and decoding efficiency over a baseline pivot-based approach to zero-resource NMT on Spanish-French
+and German-French translation tasks
+
+# Related Work {#sec-related-work}
 
 ## zero-shot learning.
  * try to explain the NMT has attract more people attention.
@@ -70,26 +96,48 @@ utilizing a single attention.
 (2016a) propose a pivot-based method for zero resource NMT: it first translates the source language to a pivot language, which is then translated
 to the target language.But this method has two problems, the computational complexity and error propagation.
 
-## A short overview
+# Background
 
-Figure [#fig-butterfly] in Section [#sec-intro] shows a monarch
-butterfly. Note that you can drag&drop images into the editor pane to
-include them in the document, and similarly with bibtex files, latex
-style files, etc.
+The strength of NMT lies in its ability to learn directly,in a end to end fashion,the mapping from input text to associated output text(@sutskever2014sequence).
+Lex $ \mathbf{x} $ be a source language sentence and $ \mathbf{y} $ be a target-language sentence.NMT directly estimates the conditional probability of the target variable $\mathbf{y}$
+$ P\left(\mathbf{y} | \mathbf{x} ; {\boldsymbol{\theta}}_{x \rightarrow y}\right)\label{x1}, $
+where $\boldsymbol{\theta}_{x \rightarrow y}$ is a set of model parameters.Given a source-target parallel corpus $D_{x, y}$ the model parameters can be obtained by maximum likelihood estimation(MLE) of $\eqref{x1}$.
 
-~ Figure { #fig-butterfly; caption:"A Monarch butterfly (use the `.wide` class for wide figure)."; page-align:top}
-![butterfly]
+~ Equation { #eq-x2 }
+\hat{\boldsymbol{\theta}}_{x \rightarrow y}=\underset{\boldsymbol{\theta}_{x \rightarrow y}}{\operatorname{argmin}}\left\{- \sum_{(\mathbf{x}, \mathbf{y}) \in D_{x, y}} \log P\left(\mathbf{y} | \mathbf{x} ; \boldsymbol{\theta}_{x \rightarrow y}\right)\right\}.
 ~
 
-[butterfly]: images/butterfly.png "butterfly"  { width:4em }
 
-Our contributions are:
+Although neural network-based models have shown remarkable results in the field of machine translation,but NMT still works poorly when the available number of training examples is limited(@koehn2003statistical).
+zero-shot NMT is sensitive to training conditions, and the translation quality usually lags behind the pivot-based methods which use a shared language as a bridge for translation(@sestorain2018zero,@arivazhagan2019missing).
+@cheng2016neural approaches to zero-resource NMT by using pivot-based NMT.Let $ \mathbf{x} $ , $ \mathbf{y} $,and $ \mathbf{z} $ denote source,target,and pivot languages. Then, the training objective of pivot-based NMT can be written as
 
-* A figure of a _butterfly_;
-* Some **mathematics**;
-* And some source code;
-* And references to Tex books [@Knuth:TeX;@Lamport:LaTeX;@Fberg04] and others [@Grandstrand] @johnson2017google
+~ Equation { #eq-x3 }
+\begin{aligned} & P\left(\mathbf{y} | \mathbf{x} ; \boldsymbol{\theta}_{x \rightarrow z}, \boldsymbol{\theta}_{z \rightarrow y}\right) \\ =& \sum_{\mathbf{z}} P\left(\mathbf{z} | \mathbf{x} ; \boldsymbol{\theta}_{x \rightarrow z}\right) P\left(\mathbf{y} | \mathbf{z} ; \boldsymbol{\theta}_{z \rightarrow y}\right) \end{aligned}.
+~
 
+
+Given a source-pivot parallel corpus $D_{x,z}$ and the pivot-target parallel corpus $D_{z,y}$ the model parameter can be obtained separately by using MLE.
+
+~ Equation { #eq-x4 }
+\hat{\boldsymbol{\theta}}_{x \rightarrow z}=\underset{\theta_{x \rightarrow z}}{\operatorname{argmin}}\left\{- \sum_{\langle\mathbf{x}, \mathbf{z}) \in D_{x, z}} \log P\left(\mathbf{z} | \mathbf{x} ; \boldsymbol{\theta}_{x \rightarrow z}\right)\right\},
+~
+
+~ Equation { #eq-x5 }
+\hat{\boldsymbol{\theta}}_{z \rightarrow y}=\underset{\theta_{z \rightarrow y}}{\operatorname{argmin}}\left\{- \sum_{\langle\mathbf{z}, \mathbf{y}\rangle \in D_{z, y}} \log P\left(\mathbf{y} | \mathbf{z} ; \boldsymbol{\theta}_{z \rightarrow y}\right)\right\}.
+~
+
+
+Therefore, it is necessary to explore methods to directly model source-to-target translation without parallel corpora available.
+@chen2017teachers' approach overcomes the shortcomings of separation training. With the help of knowledge distillation, the pre-trained teacher model will not participate in the secondary decoding.
+In fact,the student model trained that trained on the source-pivot corpus can obtain the target sentences in once decoding.
+
+# Zero-shot in pivot-based NMT
+
+
+
+The above pivot-based NMT requires a second decoding to obtain the target sentence.
+The error generated in the first step will continue.
 # Content
 
 A definition of $e$ is shown in Equation [#euler]:
