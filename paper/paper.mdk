@@ -31,7 +31,7 @@ But sad or merry, I must leave it now. Farewell!
 # Introduction     { #sec-intro }
 
 &nbsp;&nbsp;In the past four years, neural machine translation has demonstrated excellent performance in many fields.
-Moreover, the best results were obtained in the IWSLT(@cettolo2016iwslt) and WMT(@bojar2016findings) evaluation competition.
+Moreover, the best results were obtained in the IWSLT(@cettolo2017overview) and WMT(@bojar2016findings) evaluation competition.
 Neural machine translation is an end-to-end fashion to model the mapping of source language to target language through posterior probability.
 The NMT system consists of an encoder and decoder, which jointly train the maximum likelihood probability in an end-to-end manner.
 With the help of long-term and short-term memory neural networks, threshold loop units, attention mechanisms, etc., NMT has achieved good results in many translation tasks, especially the latter.
